@@ -1,19 +1,19 @@
 import java.util.Arrays;
 
 public enum Command {
-    LS("ls") {
+    LS("ls") { //список файлов и папок
 
     },
-    MKDIR("mkdir") {
+    MKDIR("mkdir") { // создает папку
 
     },
-    CD("cd") {
+    CD("cd") { //переход в другую папку
 
     },
-    CAT("cat") {
+    CAT("cat") { //открывает файл
 
     },
-    TOUCH("touch"){
+    TOUCH("touch"){ //создает файл
 
     },
 
