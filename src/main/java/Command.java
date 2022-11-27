@@ -1,6 +1,9 @@
 import java.util.Arrays;
 
 public enum Command {
+    AUTHOK("/authok"){
+
+    },
     LS("ls") { //список файлов и папок
 
     },

@@ -14,7 +14,8 @@ public class Server {
                 System.out.println("Ожидаю подключение клиента...");
                 Socket socket = serverSocket.accept();
                 System.out.println("Клиент подключился...");
-                new Thread(new ClientHandler(socket)).start();
+                Server server = new Server();
+                new Thread(new ClientHandler(socket, server)).start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
