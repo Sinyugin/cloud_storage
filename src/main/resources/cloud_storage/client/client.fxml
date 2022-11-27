@@ -13,7 +13,7 @@
                   <TextField fx:id="tfPass" />
                   <Button fx:id="signUp" mnemonicParsing="false" text="Зарегистрироваться" />
                   <Button fx:id="signIn" mnemonicParsing="false" onAction="#signinBtnClick" text="Войти" />
-                  <Button fx:id="signOut" mnemonicParsing="false" text="Выйти" />
+                  <Button fx:id="signOut" mnemonicParsing="false" onAction="#signoutBtnClick" text="Выйти" />
                </children>
             </HBox>
             <AnchorPane fx:id="viewapp" layoutY="49.0" prefHeight="323.0" prefWidth="640.0" visible="false">

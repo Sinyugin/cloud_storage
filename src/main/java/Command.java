@@ -1,12 +1,18 @@
+
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 public enum Command {
-    AUTHOK("/authok"){
+    AUTHOK("/authok") {
 
     },
     LS("ls") { //список файлов и папок
 
     },
+
     MKDIR("mkdir") { // создает папку
 
     },
@@ -16,11 +22,11 @@ public enum Command {
     CAT("cat") { //открывает файл
 
     },
-    TOUCH("touch"){ //создает файл
+    TOUCH("touch") { //создает файл
 
     },
 
-    SEND("send"){
+    SEND("send") {
 
     };
 
@@ -30,11 +36,11 @@ public enum Command {
         this.command = command;
     }
 
-    public String getCommand(){
+    public String getCommand() {
         return command;
     }
 
-    public static Command byCommand(String command){
+    public static Command byCommand(String command) {
         return Arrays.stream(values())
                 .filter(cmd -> cmd.getCommand().equals(command))
                 .findAny()
