@@ -20,7 +20,7 @@ public class ClientHandler implements Runnable {
         running = true;
         buf = new byte[8192];
         in = new DataInputStream(socket.getInputStream());
-        out = socket.getOutputStream();
+        out = new DataOutputStream(socket.getOutputStream());
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void close() throws IOException {
+    public void close() throws IOException {
         out.close();
         in.close();
         socket.close();
