@@ -3,35 +3,34 @@ package server;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.sql.*;
 
 public class ClientHandler implements Runnable {
     private boolean running;
-    private InputStream in;
+    private DataInputStream in;
     private OutputStream out;
     private byte[] buf;
     private Socket socket;
+    private Server server;
 
-    public ClientHandler(Socket socket) throws IOException {
+    public ClientHandler(Socket socket, Server server) throws IOException {
         this.socket = socket;
+        this.server = server;
+
         running = true;
         buf = new byte[8192];
-        in = socket.getInputStream();
-        out = socket.getOutputStream();
-    }
-
-    public void stop() {
-        running = false;
+        in = new DataInputStream(socket.getInputStream());
+        out = new DataOutputStream(socket.getOutputStream());
     }
 
     @Override
     public void run() {
         try {
             while (running) {
-                int read = in.read(buf); // ожидает сообщения от клиента
-                String message = new String(buf, 0, read)
-                        .trim();
+                String message = in.readUTF(); // ожидает сообщения от клиента
                 if (message.equals("quit")) {
                     out.write("Клиент отключился\n".getBytes(StandardCharsets.UTF_8));
+                    System.out.println("Клиент отключился.");
                     close();
                     break;
                 }
@@ -43,7 +42,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private void close() throws IOException {
+    public void close() throws IOException {
         out.close();
         in.close();
         socket.close();
