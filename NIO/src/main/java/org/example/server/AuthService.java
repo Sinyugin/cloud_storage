@@ -1,4 +1,4 @@
-package server;
+package org.example.server;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class AuthService {
 
     public AuthService(){
         try {
-            Connection connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/db/users.db");
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:C:\\GIT\\cloud_storage\\NIO\\src\\main\\resources\\db\\users.db");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from users ");
             users = new ArrayList<>();
@@ -44,7 +44,7 @@ public class AuthService {
                 String login = resultSet.getString("login");
                 String pass = resultSet.getString("pass");
                 users.add(new UserData(nick, login, pass));
-//                System.out.println(String.format("%s - %s - %s - %s", id, nick, login, pass)); //логин для теста программы
+                System.out.println(String.format("%s - %s - %s - %s", id, nick, login, pass)); //логин для теста программы
             }
             connection.close();
         } catch (SQLException e) {

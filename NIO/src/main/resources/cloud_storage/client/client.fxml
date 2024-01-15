@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="501.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientController">
+<VBox prefHeight="501.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.client.ClientController">
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="501.0" prefWidth="780.0" VBox.vgrow="ALWAYS">
             <children>
@@ -24,16 +24,16 @@
                         <TextField fx:id="tfParentClient" layoutX="439.0" layoutY="32.0" prefHeight="25.0" prefWidth="302.0" />
                         <ListView fx:id="lvServer" layoutX="7.0" layoutY="62.0" prefHeight="257.0" prefWidth="330.0" />
                         <ListView fx:id="lvClient" layoutX="441.0" layoutY="62.0" prefHeight="257.0" prefWidth="330.0" />
-                        <Button layoutX="312.0" layoutY="32.0" mnemonicParsing="false" text="^" />
-                        <Button layoutX="746.0" layoutY="32.0" mnemonicParsing="false" text="^" />
+                        <Button fx:id="BtnParentDirInServer" layoutX="312.0" layoutY="32.0" mnemonicParsing="false" onAction="#ParentDirInServer" text="^" />
+                        <Button fx:id="BtnParentDirInClient" layoutX="746.0" layoutY="32.0" mnemonicParsing="false" onAction="#ParentDirInClient" text="^" />
                         <Button layoutX="374.0" layoutY="78.0" mnemonicParsing="false" text="&gt;&gt;" />
                         <Button layoutX="374.0" layoutY="113.0" mnemonicParsing="false" text="&lt;&lt;" />
-                        <Button layoutX="7.0" layoutY="325.0" mnemonicParsing="false" text="Создать файл" />
-                        <Button layoutX="441.0" layoutY="325.0" mnemonicParsing="false" text="Создать файл" />
+                        <Button fx:id="BtnCreateFile" layoutX="7.0" layoutY="325.0" mnemonicParsing="false" onAction="#createFileInServer" text="Создать файл" />
+                        <Button fx:id="BtnCreateFileClient" layoutX="441.0" layoutY="325.0" mnemonicParsing="false" onAction="#createFileInClient" text="Создать файл" />
                         <Button layoutX="107.0" layoutY="325.0" mnemonicParsing="false" onAction="#createDirBtnClick" text="Создать папку" />
-                        <Button layoutX="539.0" layoutY="325.0" mnemonicParsing="false" onAction="#createDirBtnClick" text="Создать папку" />
-                        <Button fx:id="BtnDell" layoutX="212.0" layoutY="325.0" mnemonicParsing="false" onAction="#deleteBtnClick" text="Удалить" />
-                        <Button layoutX="646.0" layoutY="325.0" mnemonicParsing="false" text="Удалить" />
+                        <Button layoutX="539.0" layoutY="325.0" mnemonicParsing="false" onAction="#createDirClient" text="Создать папку" />
+                        <Button fx:id="BtnDell" layoutX="212.0" layoutY="325.0" mnemonicParsing="false" onAction="#deleteInServer" text="Удалить" />
+                        <Button fx:id="BtnDellInClient" layoutX="646.0" layoutY="325.0" mnemonicParsing="false" onAction="#dellInClient" text="Удалить" />
 
 
                     </children>

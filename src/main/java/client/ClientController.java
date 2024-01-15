@@ -7,10 +7,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import server.AuthService;
-import server.ClientHandler;
+import org.example.server.AuthService;
+import org.example.server.Command;
 import server.Server;
 
+import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -53,6 +54,7 @@ public class ClientController implements Initializable {
     public Button createDirServer;
     @FXML
     public Button BtnDell;
+    public ListView lvLog;
 
     private Client client;
     private Socket socket;
@@ -64,10 +66,10 @@ public class ClientController implements Initializable {
     Map<String, String> pathFiles;
 
     Path clientDir = Paths.get("C:\\GIT\\cloud_storage\\src\\main\\java\\client\\files");
-    Path serverDir = Paths.get("src\\\\main\\\\java\\\\server\\\\files");
+    Path serverDir = Paths.get("src\\main\\java\\server\\files");
 
 
-    public ClientController() {
+    public ClientController() throws IOException {
 
     }
 
@@ -75,40 +77,38 @@ public class ClientController implements Initializable {
         socket = new Socket("localhost", 8189);
         in = new DataInputStream(socket.getInputStream());
         out = new DataOutputStream(socket.getOutputStream());
-//        new Thread(() -> {
-//            while (true) {
-//                try {
-//                    String message = in.readUTF();
-//                    if (message.equals("quit")) {
-//                        in.close();
-//                        out.close();
-//                        socket.close();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
+        new Thread(() -> {
+            while (true) {
+                try {
+                    String message = in.readUTF();
+                    if (message.equals("quit")) {
+                        in.close();
+                        out.close();
+                        socket.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
-
     public void signinBtnClick() { //Нажатие кнопки войти
-        try {
-            openConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         String login = tfLogin.getText();
         String pass = tfPass.getText();
         AuthService authService = new AuthService();
         String nick = authService.getNickByLoginAndPassword(login, pass);
         if (login.equals(nick)) {
+            try {
+                openConnection();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             viewapp.setVisible(true); //открывает основное окно программы
             signOut.setVisible(true); //открывает кнопку Выход
             signIn.setVisible(false); //скрывает кнопку Войти
             signUp.setVisible(false); //скрывает кнопку Зарегистрироватся
-
-            System.out.println("Пользователь " + nick + " авторизовался ");
+            Platform.runLater(() -> lvLog.getItems().addAll("Пользователь " + nick + " авторизовался "));
             if (!checkDirectory(nick)) { //проверяет наличие папки на сервере
                 createDirectory(nick);   //создает папку на сервере
             } else System.out.println("Папка еже существует");
@@ -117,24 +117,36 @@ public class ClientController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else System.out.println("Не правильный логин или пароль");
+        } else Platform.runLater(() -> lvLog.getItems().addAll("Не правильный логин или пароль"));
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initClickListener();
+        initDblClickListener();
     }
 
     public void signoutBtnClick() {
         try {
-            ClientHandler clientHandler = new ClientHandler(socket, server);
-            clientHandler.close();
-//            in.close();
-//            out.close();
-//            socket.close();
+            in.readUTF((DataInput) Command.QUIT);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
+//        try {
+//            socket = new Socket("localhost", 8189);
+//            in = new DataInputStream(socket.getInputStream());
+//            out = new DataOutputStream(socket.getOutputStream());
+//
+//            out.writeUTF("quit");
+////            ClientHandler clientHandler = new ClientHandler(socket, server);
+////            clientHandler.close();
+////            in.close();
+////            out.close();
+////            socket.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private boolean checkDirectory(String nick) { //проверяет наличие папки пользователя на сервере
@@ -162,6 +174,7 @@ public class ClientController implements Initializable {
                 .collect(Collectors.toList());
 //        Path parentServer = serverDir.getParent();
         Path parentClient = clientDir.getParent();
+        Platform.runLater(() -> lvServer.getItems().clear());
         Platform.runLater(() -> lvServer.getItems().addAll(files));
         Platform.runLater(() -> lvClient.getItems().addAll(files2));
 //        Platform.runLater(() -> tfParentServer.setText(parentServer.resolve(nick).toString()));
@@ -185,11 +198,12 @@ public class ClientController implements Initializable {
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            Path currentDir = Paths.get(tfParentServer.getText());
+            Path newDir = Paths.get(tfParentServer.getText());
+            String nameDir = dialog.getEditor().getText();
             try {
-                String nameDir = dialog.getHeaderText();
-                Files.createDirectory(currentDir.resolve(nameDir));
-                System.out.println(currentDir.resolve(nameDir));
+                Files.createDirectory(newDir.resolve(nameDir));
+                fillFileView("user");//todo
+                Platform.runLater(() -> lvLog.getItems().addAll("Создана папка " + nameDir));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -207,7 +221,11 @@ public class ClientController implements Initializable {
     private void initDblClickListener() {
         lvServer.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
-
+                String text = lvServer.getFocusModel().getFocusedItem().toString();
+                String[] arr = text.split(" ");
+                String token = arr[0];
+                Path currentDir = Paths.get(tfParentServer.getText()).resolve(token);
+                Platform.runLater(() -> tfParentServer.setText(currentDir.toString()));
             }
         });
     }
@@ -218,10 +236,16 @@ public class ClientController implements Initializable {
         String token = arr[0];
         Path currentDir = Paths.get(tfParentServer.getText());
         currentDir = currentDir.resolve(token);
-        try {
-            Files.delete(currentDir);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Удалить " + token + " ?", ButtonType.OK, ButtonType.CANCEL);
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.OK) {
+            try {
+                Files.delete(currentDir);
+                fillFileView("user"); //todo
+                Platform.runLater(() -> lvLog.getItems().addAll(token + " удалён"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package server;
+package org.example.server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -77,7 +77,7 @@ public class ServerNio {
         channel.write(ByteBuffer.wrap(response.getBytes(StandardCharsets.UTF_8)));
     }
 
-    private void processMessage(SocketChannel channel, String msg) throws IOException {
+    public void processMessage(SocketChannel channel, String msg) throws IOException {
         String[] tokens = msg.split(" +");
         Command type = null;
         try {
@@ -150,8 +150,9 @@ public class ServerNio {
         SocketChannel socketChannel = serverChannel.accept();
         socketChannel.configureBlocking(false);
         socketChannel.register(selector, SelectionKey.OP_READ, "Hello world!");
-        socketChannel.write(ByteBuffer.wrap(("Welcom Sergey terminal\n\r" +
-                " -> ").getBytes(StandardCharsets.UTF_8)));
+        socketChannel.write(ByteBuffer.wrap((
+                "Welcom Sergey terminal\n\r -> "
+        ).getBytes(StandardCharsets.UTF_8)));
     }
 
     public static void main(String[] args) throws IOException {
