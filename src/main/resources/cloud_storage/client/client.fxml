@@ -3,41 +3,46 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="401.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientController">
-  <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="418.0" prefWidth="763.0" VBox.vgrow="ALWAYS">
-         <children>
-            <HBox fx:id="loginPanel" prefHeight="49.0" prefWidth="640.0">
-               <children>
-                  <TextField fx:id="tfLogin" />
-                  <TextField fx:id="tfPass" />
-                  <Button fx:id="signUp" mnemonicParsing="false" text="Зарегистрироваться" />
-                  <Button fx:id="signIn" mnemonicParsing="false" onAction="#signinBtnClick" text="Войти" />
-                  <Button fx:id="signOut" mnemonicParsing="false" onAction="#signoutBtnClick" text="Выйти" visible="false" />
-               </children>
-            </HBox>
-            <AnchorPane fx:id="viewapp" layoutY="49.0" prefHeight="351.0" prefWidth="780.0">
-               <children>
-                  <Label layoutX="172.0" layoutY="6.0" text="Server" />
-                  <Label layoutX="591.0" layoutY="6.0" text="Client" />
-                  <TextField fx:id="tfParentServer" layoutX="8.0" layoutY="32.0" prefHeight="25.0" prefWidth="302.0" />
-                  <TextField fx:id="tfParentClient" layoutX="439.0" layoutY="32.0" prefHeight="25.0" prefWidth="302.0" />
-                  <ListView fx:id="lvServer" layoutX="7.0" layoutY="62.0" prefHeight="257.0" prefWidth="330.0" />
-                  <ListView fx:id="lvClient" layoutX="441.0" layoutY="62.0" prefHeight="257.0" prefWidth="330.0" />
-                  <Button layoutX="312.0" layoutY="32.0" mnemonicParsing="false" text="^" />
-                  <Button layoutX="746.0" layoutY="32.0" mnemonicParsing="false" text="^" />
-                  <Button layoutX="374.0" layoutY="78.0" mnemonicParsing="false" text="&gt;&gt;" />
-                  <Button layoutX="374.0" layoutY="113.0" mnemonicParsing="false" text="&lt;&lt;" />
-                  <Button layoutX="7.0" layoutY="325.0" mnemonicParsing="false" text="Создать файл" />
-                  <Button layoutX="441.0" layoutY="325.0" mnemonicParsing="false" text="Создать файл" />
-                  <Button layoutX="107.0" layoutY="325.0" mnemonicParsing="false" onAction="#createDirBtnClick" text="Создать папку" />
-                  <Button layoutX="539.0" layoutY="325.0" mnemonicParsing="false" onAction="#createDirBtnClick" text="Создать папку" />
-                  <Button fx:id="BtnDell" layoutX="212.0" layoutY="325.0" mnemonicParsing="false" onAction="#deleteBtnClick" text="Удалить" />
-                  <Button layoutX="646.0" layoutY="325.0" mnemonicParsing="false" text="Удалить" />
+<VBox prefHeight="501.0" prefWidth="780.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.ClientController">
+    <children>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="501.0" prefWidth="780.0" VBox.vgrow="ALWAYS">
+            <children>
+                <HBox fx:id="loginPanel" alignment="CENTER" prefHeight="49.0" prefWidth="780.0">
+                    <children>
+                        <TextField fx:id="tfLogin" />
+                        <TextField fx:id="tfPass" />
+                        <Button fx:id="signUp" mnemonicParsing="false" text="Зарегистрироваться" />
+                        <Button fx:id="signIn" mnemonicParsing="false" onAction="#signinBtnClick" text="Войти" />
+                        <Button fx:id="signOut" mnemonicParsing="false" onAction="#signoutBtnClick" text="Выйти" visible="false" />
+                    </children>
+                </HBox>
+                <AnchorPane fx:id="viewapp" layoutY="49.0" prefHeight="351.0" prefWidth="780.0">
+                    <children>
+                        <Label layoutX="172.0" layoutY="6.0" text="Server" />
+                        <Label layoutX="591.0" layoutY="6.0" text="Client" />
+                        <TextField fx:id="tfParentServer" layoutX="8.0" layoutY="32.0" prefHeight="25.0" prefWidth="302.0" />
+                        <TextField fx:id="tfParentClient" layoutX="439.0" layoutY="32.0" prefHeight="25.0" prefWidth="302.0" />
+                        <ListView fx:id="lvServer" layoutX="7.0" layoutY="62.0" prefHeight="257.0" prefWidth="330.0" />
+                        <ListView fx:id="lvClient" layoutX="441.0" layoutY="62.0" prefHeight="257.0" prefWidth="330.0" />
+                        <Button layoutX="312.0" layoutY="32.0" mnemonicParsing="false" text="^" />
+                        <Button layoutX="746.0" layoutY="32.0" mnemonicParsing="false" text="^" />
+                        <Button layoutX="374.0" layoutY="78.0" mnemonicParsing="false" text="&gt;&gt;" />
+                        <Button layoutX="374.0" layoutY="113.0" mnemonicParsing="false" text="&lt;&lt;" />
+                        <Button layoutX="7.0" layoutY="325.0" mnemonicParsing="false" text="Создать файл" />
+                        <Button layoutX="441.0" layoutY="325.0" mnemonicParsing="false" text="Создать файл" />
+                        <Button layoutX="107.0" layoutY="325.0" mnemonicParsing="false" onAction="#createDirBtnClick" text="Создать папку" />
+                        <Button layoutX="539.0" layoutY="325.0" mnemonicParsing="false" onAction="#createDirBtnClick" text="Создать папку" />
+                        <Button fx:id="BtnDell" layoutX="212.0" layoutY="325.0" mnemonicParsing="false" onAction="#deleteBtnClick" text="Удалить" />
+                        <Button layoutX="646.0" layoutY="325.0" mnemonicParsing="false" text="Удалить" />
 
-               </children>
-            </AnchorPane>
-         </children>
-    </AnchorPane>
-  </children>
+
+                    </children>
+                </AnchorPane>
+                <HBox minWidth="-Infinity" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <ListView fx:id="lvLog" prefHeight="80.0" prefWidth="780.0" />
+                </HBox>
+
+            </children>
+        </AnchorPane>
+    </children>
 </VBox>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox prefHeight="501.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.client.ClientController">
+
+    <VBox>
+        <HBox fx:id="loginPanel" alignment="CENTER" prefHeight="49.0" prefWidth="780.0">
+            <TextField fx:id="tfLogin"/>
+            <PasswordField fx:id="tfPass"/>
+            <Button fx:id="signIn" mnemonicParsing="false" onAction="#signinBtnClick" text="Войти"/>
+            <Button fx:id="signOut" mnemonicParsing="false" onAction="#closeConnect" text="Выйти"
+                    visible="false"/>
+        </HBox>
+        <HBox>
+            <HBox HBox.hgrow="ALWAYS">
+                <Label layoutX="172.0" layoutY="6.0" text="Server"/>
+            </HBox>
+            <HBox HBox.hgrow="ALWAYS">
+                <Label layoutX="591.0" layoutY="6.0" text="Client"/>
+            </HBox>
+        </HBox>
+        <HBox spacing="10">
+            <fx:include fx:id="leftPanel" source="panel.fxml" HBox.hgrow="ALWAYS" visible="false"/>
+            <fx:include fx:id="rightPanel" source="panel.fxml" HBox.hgrow="ALWAYS"/>
+        </HBox>
+        <HBox>
+            <HBox spacing="5" HBox.hgrow="ALWAYS">
+                <Button fx:id="BtnCreateFile" focusTraversable="false" onAction="#createFileInServer"
+                        text="Создать файл"/>
+                <Button focusTraversable="false" onAction="#createDirBtnClick"
+                        text="Создать папку"/>
+                <Button fx:id="BtnDell" focusTraversable="false" onAction="#deleteInServer" text="Удалить"/>
+                <Button focusTraversable="false" onAction="#copyBtnAction" text="Копировать"/>
+            </HBox>
+            <HBox spacing="5" HBox.hgrow="ALWAYS">
+                <Button fx:id="BtnCreateFileClient" focusTraversable="false" mnemonicParsing="false"
+                        onAction="#createFileInClient" text="Создать файл"/>
+                <Button focusTraversable="false" mnemonicParsing="false" onAction="#createDirClient"
+                        text="Создать папку"/>
+                <Button fx:id="BtnDellInClient" focusTraversable="false" mnemonicParsing="false"
+                        onAction="#dellInClient" text="Удалить"/>
+                <Button focusTraversable="false" onAction="#copyBtnAction" text="Копировать"/>
+            </HBox>
+        </HBox>
+        <ListView fx:id="lvLog" prefHeight="80.0" prefWidth="1020.0"/>
+    </VBox>
+</VBox>

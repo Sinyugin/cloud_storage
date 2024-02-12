@@ -1,4 +1,4 @@
-package server;
+package org.example.server;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -30,7 +30,6 @@ public class ServerNio {
         serverChannel.configureBlocking(false);
         serverChannel.register(selector, SelectionKey.OP_ACCEPT);
 
-
         while (serverChannel.isOpen()) {
             selector.select();
             Set<SelectionKey> keys = selector.selectedKeys();
@@ -41,11 +40,9 @@ public class ServerNio {
                     if (key.isAcceptable()) {
                         handleAccept();
                     }
-
                     if (key.isReadable()) {
                         handleRead(key);
                     }
-
                     iterator.remove();
                 }
             } catch (Exception e) {
@@ -73,11 +70,9 @@ public class ServerNio {
             buf.clear();
             processMessage(channel, msg.toString().trim());
         }
-        String response = "Hello " + msg + key.attachment();
-        channel.write(ByteBuffer.wrap(response.getBytes(StandardCharsets.UTF_8)));
     }
 
-    private void processMessage(SocketChannel channel, String msg) throws IOException {
+    public void processMessage(SocketChannel channel, String msg) throws IOException {
         String[] tokens = msg.split(" +");
         Command type = null;
         try {
@@ -91,7 +86,10 @@ public class ServerNio {
                     break;
                 case CD:
                     processCdCommand(channel, tokens);
-
+                    break;
+                case QUIT:
+                    processQuitCommand(channel, tokens);
+                    break;
             }
         } catch (RuntimeException e) {
             String response = "Command " + tokens[0] + " is not exists!\n\r";
@@ -126,10 +124,15 @@ public class ServerNio {
         }
     }
 
+    private void processQuitCommand(SocketChannel channel, String[] tokens) throws IOException{
+        System.out.println("Клиент отключился");
+        channel.close();
+    }
+
     private String getFileList() throws IOException {
         return Files.list(currentDir)
                 .map(p -> p.getFileName().toString() + " " + getFileSuffix(p))
-                .collect(Collectors.joining("\n")) + "\n\r";
+                .collect(Collectors.joining("\n\r")) + "\n\r";
     }
 
     private String getFileSuffix(Path path) {
@@ -150,8 +153,9 @@ public class ServerNio {
         SocketChannel socketChannel = serverChannel.accept();
         socketChannel.configureBlocking(false);
         socketChannel.register(selector, SelectionKey.OP_READ, "Hello world!");
-        socketChannel.write(ByteBuffer.wrap(("Welcom Sergey terminal\n\r" +
-                " -> ").getBytes(StandardCharsets.UTF_8)));
+        socketChannel.write(ByteBuffer.wrap((
+                "Welcom Sergey terminal\n\r"
+        ).getBytes(StandardCharsets.UTF_8)));
     }
 
     public static void main(String[] args) throws IOException {
